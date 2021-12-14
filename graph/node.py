@@ -1,8 +1,8 @@
 from typing import TYPE_CHECKING, Optional, Any
 
 import PySide6
-from PySide6.QtCore import QRectF, QRect, QPoint
-from PySide6.QtGui import QPainterPath, QPainter, QColor, Qt, QBrush, QPen
+from PySide6.QtCore import QRectF, QRect
+from PySide6.QtGui import QPainterPath, QPainter, QColor, Qt, QBrush, QPen, QFont
 from PySide6.QtWidgets import QGraphicsItem, QStyleOptionGraphicsItem, QGraphicsSceneMouseEvent
 
 if TYPE_CHECKING:
@@ -17,6 +17,8 @@ class Node(QGraphicsItem):
     __selected_color = QColor(Qt.blue)
     __unselected_color = QColor(Qt.black)
 
+    __title_font = QFont("Arial", 12)
+
     __background_brush = QBrush(__background_color)
     __selected_pen = QPen(__selected_color, 1.25)
     __unselected_pen = QPen(__unselected_color, 1.25)
@@ -29,6 +31,7 @@ class Node(QGraphicsItem):
 
         self._edges: set['Edge'] = set()
         self._selected = False
+        self._self_connected = False
 
         self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsMovable)
         self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges)
@@ -66,7 +69,16 @@ class Node(QGraphicsItem):
         self._selected = selected
         self.setZValue(10 if self._selected else 1)
         self.update()
-        self._graph.selected.emit(self if self._selected else None)
+        self._graph.selected.emit(self if self._selected else None, False)
+
+    @property
+    def self_connected(self):
+        return self._self_connected
+
+    @self_connected.setter
+    def self_connected(self, self_connected: bool):
+        self._self_connected = self_connected
+        self.update()
 
     @property
     def background_color(self) -> QColor:
@@ -95,6 +107,14 @@ class Node(QGraphicsItem):
         self.__unselected_color = color
         self.__unselected_pen.setColor(color)
 
+    @property
+    def title_font(self) -> QFont:
+        return self.__title_font
+
+    @title_font.setter
+    def title_font(self, font: QFont):
+        self.__title_font = font
+
     def __hash__(self):
         return hash(self.value)
 
@@ -104,7 +124,7 @@ class Node(QGraphicsItem):
 
     def shape(self) -> QPainterPath:
         path = QPainterPath()
-        path.addEllipse(QPoint(0, 0), self._r, self._r)
+        path.addEllipse(-self._r, -self._r, 2 * self._r, 2 * self._r)
         return path
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem,
@@ -117,7 +137,8 @@ class Node(QGraphicsItem):
 
         rect = QRect(-self._r, -self._r, 2 * self._r, 2 * self._r)
         painter.drawEllipse(rect)
-        painter.drawText(rect, 0x84, self._value)
+        painter.setFont(self.__title_font)
+        painter.drawText(rect, 0x84, self._value + ("↩" if self._self_connected else ""))
 
     def itemChange(self, change: QGraphicsItem.GraphicsItemChange, value: Any) -> Any:
         if change == QGraphicsItem.ItemPositionHasChanged:
@@ -128,7 +149,10 @@ class Node(QGraphicsItem):
 
     def mousePressEvent(self, event: QGraphicsSceneMouseEvent):
         if event.button() & Qt.RightButton:
-            self.selected = not self.selected
+            if event.modifiers() & Qt.AltModifier:
+                self._graph.selected.emit(self, True)
+            else:
+                self.selected = not self.selected
 
         if event.button() & Qt.LeftButton and event.modifiers() & Qt.KeyboardModifier.ShiftModifier:
             edges = self._edges.copy()

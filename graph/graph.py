@@ -11,7 +11,7 @@ __all__ = ("Graph",)
 
 
 class Graph(QGraphicsView):
-    selected = Signal(Node)
+    selected = Signal(Node, bool)
 
     def __init__(self, parent: Optional[QWidget] = None):
         super().__init__(parent)
@@ -52,41 +52,47 @@ class Graph(QGraphicsView):
         self._nodes.remove(node)
         self._scene.removeItem(node)
 
+    def find_edge(self, src: Node, dest: Node) -> Optional[Edge]:
+        for e in self._edges:
+            if e.src == src and e.dest == dest:
+                return e
+        return None
+
     def add_edge(self, edge: Edge):
         edge.src.add_edge(edge)
-        edge.dest.add_edge(edge)
+        if edge.src != edge.dest:
+            edge.dest.add_edge(edge)
         self._edges.add(edge)
         self._scene.addItem(edge)
 
     def remove_edge(self, edge: Edge):
         edge.src.remove_edge(edge)
-        edge.dest.remove_edge(edge)
+        if edge.src != edge.dest:
+            edge.dest.remove_edge(edge)
         self._edges.remove(edge)
         self._scene.removeItem(edge)
 
-    @Slot(Node)
-    def on_selected(self, node: Node):
+    @Slot(Node, bool)
+    def on_selected(self, node: Node, self_select: bool):
         if node is None:
             self._selected = None
             return
 
-        if not self._selected:
+        if not self._selected and not self_select:
             self._selected = node
             return
 
-        other = self._selected
-        edge: Optional[Edge] = None
+        other = self._selected if not self_select else node
 
-        tmp = Edge(other, node)
-        for e in self._edges:
-            if e == tmp:
-                edge = e
-                break
-
+        edge = self.find_edge(other, node)
         if edge:
             self.remove_edge(edge)
+            if self_select:
+                node.self_connected = False
         else:
-            self.add_edge(tmp)
+            self.add_edge(Edge(other, node))
+            if self_select:
+                node.self_connected = True
 
         node.selected = False
         other.selected = False
@@ -97,7 +103,8 @@ class Graph(QGraphicsView):
         self._selected = None
 
     def mousePressEvent(self, event: QMouseEvent):
-        if self.items(event.scenePosition().toPoint()):
+        p = self.mapToScene(event.pos())
+        if self.items(p.toPoint()):
             super().mousePressEvent(event)
             return
 
@@ -105,7 +112,7 @@ class Graph(QGraphicsView):
             self._next_val += 1
             node = Node(self, str(self._next_val))
 
-            node.setPos(event.scenePosition())
+            node.setPos(p)
             self.add_node(node)
 
             if self._selected:

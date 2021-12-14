@@ -1,7 +1,8 @@
+import math
 from typing import TYPE_CHECKING, Optional
 
 from PySide6.QtCore import Qt, QPointF, QLineF, QRectF, QSizeF, qFuzzyCompare
-from PySide6.QtGui import QPainter, QColor, QPen
+from PySide6.QtGui import QPainter, QColor, QPen, QPolygonF
 from PySide6.QtWidgets import QGraphicsItem, QStyleOptionGraphicsItem, QWidget
 
 if TYPE_CHECKING:
@@ -14,6 +15,8 @@ class Edge(QGraphicsItem):
     __default_color = QColor(Qt.black)
 
     __default_pen = QPen(__default_color, 1.5, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin)
+
+    __arrow_size = 10
 
     def __init__(self, src: 'Node', dest: 'Node'):
         super().__init__()
@@ -39,8 +42,7 @@ class Edge(QGraphicsItem):
 
     def __eq__(self, other):
         if isinstance(other, Edge):
-            return self._src == other._src and self._dest == other._dest or \
-                   self._src == other._dest and self._dest == other._src
+            return self._src == other._src and self._dest == other._dest
 
         raise NotImplemented
 
@@ -60,8 +62,13 @@ class Edge(QGraphicsItem):
             self._src_point = self._dest_point = line.p1()
 
     def boundingRect(self) -> QRectF:
+        pen_width = self.__default_pen.width()
+        extra = (pen_width + self.__arrow_size) / 2
+
         return QRectF(self._src_point, QSizeF(self._dest_point.x() - self._src_point.x(),
-                                              self._dest_point.y() - self._src_point.y())).normalized()
+                                              self._dest_point.y() - self._src_point.y())) \
+            .normalized() \
+            .adjusted(-extra, -extra, extra, extra)
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: Optional[QWidget] = ...):
         line = QLineF(self._src_point, self._dest_point)
@@ -70,3 +77,16 @@ class Edge(QGraphicsItem):
 
         painter.setPen(self.__default_pen)
         painter.drawLine(line)
+
+        angle = math.atan2(-line.dy(), line.dx())
+
+        dest_arrow = QPolygonF()
+
+        dest_arrow.append(line.p2())
+        dest_arrow.append(self._dest_point + QPointF(math.sin(angle - math.pi / 3) * self.__arrow_size,
+                                                     math.cos(angle - math.pi / 3) * self.__arrow_size))
+        dest_arrow.append(self._dest_point + QPointF(math.sin(angle - math.pi + math.pi / 3) * self.__arrow_size,
+                                                     math.cos(angle - math.pi + math.pi / 3) * self.__arrow_size))
+
+        painter.setBrush(Qt.black)
+        painter.drawPolygon(dest_arrow)
