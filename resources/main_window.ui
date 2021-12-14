@@ -1,181 +1,198 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>916</width>
-    <height>805</height>
-   </rect>
-  </property>
-  <property name="font">
-   <font>
-    <pointsize>12</pointsize>
-   </font>
-  </property>
-  <property name="windowTitle">
-   <string>SIACOD RGR</string>
-  </property>
-  <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,2,2">
-    <item>
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Вариант 25. &lt;/span&gt;Задан произвольный граф. С помощью алгоритма Уоршалла сформировать матрицу достижимости и определить существует ли путь от Vi к Vj.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Входной граф:</string>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QWidget" name="graph_widget" native="true"/>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>Матрица достижимости:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QTableView" name="matrix_tableView">
-          <attribute name="horizontalHeaderDefaultSectionSize">
-           <number>30</number>
-          </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>30</number>
-          </attribute>
-          <attribute name="verticalHeaderDefaultSectionSize">
-           <number>30</number>
-          </attribute>
-          <attribute name="verticalHeaderMinimumSectionSize">
-           <number>30</number>
-          </attribute>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QFormLayout" name="formLayout">
-        <item row="1" column="0">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Выберите первую вершину:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="firstNode_comboBox">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>100</width>
-            <height>0</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Выберите вторую вершину:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QComboBox" name="secondNode_comboBox">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>100</width>
-            <height>0</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0" colspan="2">
-         <widget class="QLabel" name="path_label">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0" colspan="2">
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="5" column="0" colspan="2">
-         <widget class="QPushButton" name="calculate_pushButton">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>48</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Расчитать матрицу достижимости</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0" colspan="2">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Выполнил:
-Сахапов Арслан Айратович,
-студент группы МО-221</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0" colspan="2">
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Управляющие элементы:</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </item>
-   </layout>
-  </widget>
- </widget>
- <resources/>
- <connections/>
+    <class>MainWindow</class>
+    <widget class="QMainWindow" name="MainWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>916</width>
+                <height>805</height>
+            </rect>
+        </property>
+        <property name="font">
+            <font>
+                <pointsize>12</pointsize>
+            </font>
+        </property>
+        <property name="windowTitle">
+            <string>SIACOD RGR</string>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,2,2">
+                <item>
+                    <widget class="QLabel" name="label_3">
+                        <property name="text">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Вариант
+                                25. &lt;/span&gt;Задан произвольный граф. С помощью алгоритма Уоршалла сформировать
+                                матрицу достижимости и определить существует ли путь от Vi к Vj.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
+                            </string>
+                        </property>
+                        <property name="wordWrap">
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                </item>
+                <item>
+                    <widget class="QLabel" name="label_4">
+                        <property name="text">
+                            <string>Входной граф:</string>
+                        </property>
+                        <property name="wordWrap">
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                </item>
+                <item>
+                    <widget class="QWidget" name="graph_widget" native="true"/>
+                </item>
+                <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout">
+                        <item>
+                            <layout class="QVBoxLayout" name="verticalLayout">
+                                <item>
+                                    <widget class="QLabel" name="label_5">
+                                        <property name="text">
+                                            <string>Матрица достижимости:</string>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item>
+                                    <widget class="QTableView" name="matrix_tableView">
+                                        <attribute name="horizontalHeaderDefaultSectionSize">
+                                            <number>30</number>
+                                        </attribute>
+                                        <attribute name="horizontalHeaderMinimumSectionSize">
+                                            <number>30</number>
+                                        </attribute>
+                                        <attribute name="verticalHeaderDefaultSectionSize">
+                                            <number>30</number>
+                                        </attribute>
+                                        <attribute name="verticalHeaderMinimumSectionSize">
+                                            <number>30</number>
+                                        </attribute>
+                                    </widget>
+                                </item>
+                            </layout>
+                        </item>
+                        <item>
+                            <layout class="QFormLayout" name="formLayout">
+                                <item row="1" column="0">
+                                    <widget class="QLabel" name="label">
+                                        <property name="text">
+                                            <string>Выберите первую вершину:</string>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item row="1" column="1">
+                                    <widget class="QComboBox" name="firstNode_comboBox">
+                                        <property name="sizePolicy">
+                                            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                                                <horstretch>0</horstretch>
+                                                <verstretch>0</verstretch>
+                                            </sizepolicy>
+                                        </property>
+                                        <property name="minimumSize">
+                                            <size>
+                                                <width>100</width>
+                                                <height>0</height>
+                                            </size>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item row="2" column="0">
+                                    <widget class="QLabel" name="label_2">
+                                        <property name="text">
+                                            <string>Выберите вторую вершину:</string>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item row="2" column="1">
+                                    <widget class="QComboBox" name="secondNode_comboBox">
+                                        <property name="sizePolicy">
+                                            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                                                <horstretch>0</horstretch>
+                                                <verstretch>0</verstretch>
+                                            </sizepolicy>
+                                        </property>
+                                        <property name="minimumSize">
+                                            <size>
+                                                <width>100</width>
+                                                <height>0</height>
+                                            </size>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item row="3" column="0" colspan="2">
+                                    <widget class="QLabel" name="path_label">
+                                        <property name="text">
+                                            <string/>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item row="4" column="0" colspan="2">
+                                    <spacer name="verticalSpacer">
+                                        <property name="orientation">
+                                            <enum>Qt::Vertical</enum>
+                                        </property>
+                                        <property name="sizeHint" stdset="0">
+                                            <size>
+                                                <width>20</width>
+                                                <height>40</height>
+                                            </size>
+                                        </property>
+                                    </spacer>
+                                </item>
+                                <item row="5" column="0" colspan="2">
+                                    <widget class="QPushButton" name="calculate_pushButton">
+                                        <property name="minimumSize">
+                                            <size>
+                                                <width>0</width>
+                                                <height>48</height>
+                                            </size>
+                                        </property>
+                                        <property name="text">
+                                            <string>Расчитать матрицу достижимости</string>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item row="7" column="0" colspan="2">
+                                    <widget class="QLabel" name="label_6">
+                                        <property name="text">
+                                            <string>Выполнил:
+                                                Сахапов Арслан Айратович,
+                                                студент группы МО-221
+                                            </string>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item row="0" column="0" colspan="2">
+                                    <widget class="QLabel" name="label_7">
+                                        <property name="text">
+                                            <string>Управляющие элементы:</string>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item row="6" column="0" colspan="2">
+                                    <widget class="QPushButton" name="clear_pushButton">
+                                        <property name="minimumSize">
+                                            <size>
+                                                <width>0</width>
+                                                <height>48</height>
+                                            </size>
+                                        </property>
+                                        <property name="text">
+                                            <string>Очистить граф</string>
+                                        </property>
+                                    </widget>
+                                </item>
+                            </layout>
+                        </item>
+                    </layout>
+                </item>
+            </layout>
+        </widget>
+    </widget>
+    <resources/>
+    <connections/>
 </ui>

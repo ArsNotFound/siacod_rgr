@@ -27,9 +27,15 @@ class GraphViewModel(QAbstractTableModel):
     def data(self, index: Union[QModelIndex, QPersistentModelIndex], role: int = ...) -> Any:
         if not index.isValid() or role != Qt.DisplayRole:
             return None
-        return self._graph.matrix[index.row()][index.column()]
+        try:
+            return self._graph.matrix[index.row()][index.column()]
+        except IndexError:
+            return None
 
     def headerData(self, section: int, orientation: Qt.Orientation, role: int = ...) -> Any:
         if role != Qt.DisplayRole:
             return None
-        return self._graph.header[section]
+        try:
+            return self._graph.header[section]
+        except IndexError:
+            return None

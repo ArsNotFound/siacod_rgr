@@ -22,6 +22,7 @@ class MainWindow(QMainWindow):
         self._ui.graph_widget.setLayout(layout)
 
         self._ui.calculate_pushButton.pressed.connect(self.on_calculate)
+        self._ui.clear_pushButton.pressed.connect(self.on_clear)
         self._ui.firstNode_comboBox.currentTextChanged.connect(self.on_node_select)
         self._ui.secondNode_comboBox.currentTextChanged.connect(self.on_node_select)
 
@@ -35,6 +36,11 @@ class MainWindow(QMainWindow):
         self._ui.secondNode_comboBox.clear()
         self._ui.firstNode_comboBox.addItems(g.header)
         self._ui.secondNode_comboBox.addItems(g.header)
+
+    @Slot()
+    def on_clear(self):
+        self._graph.clear()
+        self.update()
 
     @Slot()
     def on_node_select(self):
